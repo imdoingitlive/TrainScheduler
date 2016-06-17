@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Train Schedule</title>
+</head>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	
+	<script  type="text/javascript" src="assets/javascript/app.js"></script>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+
+<body>
+
+	<div class="jumbotron">
+		<h1>Train Schedule</h1>
+	 	<h2>Current arrival times</h2>
+	</div>
+	
+	<div class="panel panel-default">
+ 		<div class="panel-heading">
+ 		<h3 class="panel-title">Current Train Schedule</h3>
+ 	</div>
+
+	<div class="panel-body">
+ 		<table class="table">
+ 			<th> Train Name </th>
+ 			<th> Destination </th>
+ 			<th> Frequency (min) </th>
+ 			<th> Next Arrival </th>
+ 			<th> Minutes Away </th>
+ 		</table>
+ 	</div>
+
+	<div class="panel-heading">
+ 		<h3 class="panel-title">Add Train</h3>
+ 	</div>
+
+	<div class="panel-body">
+	 	<form>
+			<div class="form-group">
+				<label for="trainName">Train Name</label>
+				<input type="train" class="form-control" id="name" >
+			</div>
+
+			<div class="form-group">
+				<label for="destinationName">Destination</label>
+				<input type="destination" class="form-control" id="dest" >
+			</div>
+				 
+			<div class="form-group">
+				<label for="trainTime">First Train Time (HH:mm - military time)</label>
+				<input type="tTime" class="form-control" id="time" >
+			</div>
+
+			<div class="form-group">
+				<label for="trainFreq">Frequency (min)</label>
+				<input type="tFreq" class="form-control" id="freq" >
+			</div>
+				 
+			<button type="submit" id="submitBtn" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+
+	<script>
+		$( document ).ready(function() {
+			var dataRef = new Firebase("https://trainschedulerhw.firebaseio.com/");
+		
+
+		 	$("#submitBtn").on("click", function(){
+
+		       // Get inputs
+		       name = $('#name').val().trim(); 
+		       dest = $('#dest').val().trim(); 
+		       time = $('#time').val().trim();
+		       freq = $('#freq').val().trim();
+
+		       // Change what is saved in firebase
+		       dataRef.push({
+		           name: name,
+		           dest: dest, 
+		           time: time, 
+		           freq: freq
+		       	});
+				
+				return false;
+	   		});
+		});
+	</script>
+
+</body>
+</html>
