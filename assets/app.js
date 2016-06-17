@@ -34,6 +34,6 @@ $( document ).ready(function() {
 	   		var time = childSnapshot.val().newTime;
 	   		var freq = childSnapshot.val().newFreq;
 
-	   		$("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + dest + "</td><td>" + time + "</td><td>" + freq + "<td></tr>");
+	   		$("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + dest + "</td><td>" + freq + "<td></tr>");
 	   	})
 });
