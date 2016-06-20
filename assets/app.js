@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 	var trainData = new Firebase("https://trainschedulerhw.firebaseio.com/");
-		
+
 		$("#submitBtn").on("click", function(){
 		 	// Get inputs
 		 	var name = $('#name').val().trim(); 
@@ -14,6 +14,7 @@ $( document ).ready(function() {
 		    	newTime: time,
 		    	newFreq: freq
 		    }
+
 		    // Change what is saved in firebase
 		    trainData.push(newTrain);
 
@@ -31,9 +32,16 @@ $( document ).ready(function() {
 
 	   		var name = childSnapshot.val().newName;
 	   		var dest = childSnapshot.val().newDest;
-	   		var time = childSnapshot.val().newTime;
 	   		var freq = childSnapshot.val().newFreq;
+	   		var time = childSnapshot.val().newTime;
 
-	   		$("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + dest + "</td><td>" + freq + "<td></tr>");
+			var firstTimeConverted = moment(time,"hh:mm").subtract(1, "years");
+			var currentTime = moment();
+			var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+			var tRemainder = diffTime % freq;
+			var tMinutesTillTrain = freq - tRemainder;
+			var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+
+	   		$("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + dest + "</td><td>" + freq + "</td><td>" + moment(nextTrain).format("hh:mm") + "</td><td>" + tMinutesTillTrain + "</td></tr>");
 	   	})
 });
